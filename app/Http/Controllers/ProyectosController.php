@@ -24,6 +24,13 @@ class ProyectosController extends Controller
         return view('proyectos.create');
     }
 
+    public function getEdit($id)
+    {
+        return view('proyectos.edit')
+            ->with('proyecto', $this->arrayProyectos[$id])
+            ->with('id', $id);
+    }
+
     private $arrayProyectos = [
         [
             'docente_id' => 1,
