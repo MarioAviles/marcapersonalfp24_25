@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class CicloController extends Controller
 {
+    public $modelclass = Ciclo::class;
     /**
      * Display a listing of the resource.
      */
@@ -16,8 +17,7 @@ class CicloController extends Controller
     {
         return CicloResource::collection(
             Ciclo::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
-            ->paginate($request->perPage)
-        );
+            ->paginate($request->perPage));
     }
 
     /**
