@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpFoundation\Response;
 
 class ReactAdminResponse
@@ -29,6 +30,23 @@ class ReactAdminResponse
             $modelClassName = $request->route()->controller->modelclass;
             $response->header('X-Total-Count',$modelClassName::count());
         }
+
+        $query = $modelClassName::query();
+
+        $tableName = (new $modelClassName)->getTable();
+        $filterColumns = Schema::getColumnListing($tableName);
+        $filterValue = $request->q;
+        if ($filterValue) {
+            foreach ($filterColumns as $column) {
+                    $response->$query->orWhere($column, 'like', '%' . $filterValue . '%');
+            }
+        }
+
+        $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+        ->paginate($request->perPage);
+        $response->setData($query->get());
+
+
         try {
             if(is_callable([$response, 'getData'])) {
                 $responseData = $response->getData();
@@ -40,19 +58,4 @@ class ReactAdminResponse
         return $response;
     }
 
-    public static function applyFilter($request, $filterColumns)
-    {
-        $modelClassName = $request->route()->controller->modelclass;
-        $query = $modelClassName::query();
-
-        $filterValue = $request->q;
-        if ($filterValue) {
-            foreach ($filterColumns as $column) {
-                    $query->orWhere($column, 'like', '%' . $filterValue . '%');
-            }
-        }
-        return $query;
-    }
-
-    public static function applySort($query)
 }
