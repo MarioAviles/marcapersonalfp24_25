@@ -22,6 +22,16 @@ class EmpresaController extends Controller
         return EmpresaResource::collection($query->paginate($request->perPage));
     }
 
+    public function count(Request $request)
+    {
+        $query =
+            $request->attributes->has('queryWithParameters') ?
+            $request->attributes->get('queryWithParameters') :
+            Empresa::query();
+            $count = $query->count();
+        return response()->json(['count' => $count]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
