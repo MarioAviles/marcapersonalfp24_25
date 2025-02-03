@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Curriculo extends Model
 {
 
+
     use HasFactory;
 
     protected $fillable = [
@@ -16,4 +17,11 @@ class Curriculo extends Model
         'video_curriculum',
         'texto_curriculum'
     ];
+
+    public static $filterColumns = ['id', 'user_id', 'video_curriculum', 'texto_curriculum'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
