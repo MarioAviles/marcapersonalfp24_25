@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Curriculo::class);
     }
+
+    public function competencias()
+    {
+        return $this->belongsToMany(Competencia::class);
+    }
 }
