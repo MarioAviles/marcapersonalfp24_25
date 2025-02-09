@@ -20,6 +20,9 @@ class CompetenciaResource extends JsonResource
 
         $user = User::find(1);
 
-        return parent::toArray($request);
+        return array_merge(
+            parent::toArray($request),
+            ['user' => $this->users]
+        );
     }
 }
