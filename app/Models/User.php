@@ -59,6 +59,6 @@ class User extends Authenticatable
 
     public function competencias()
     {
-        return $this->belongsToMany(Competencia::class);
+        return $this->belongsToMany(Competencia::class, 'users_competencias');
     }
 }
