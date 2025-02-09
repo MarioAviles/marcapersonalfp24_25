@@ -20,10 +20,6 @@ class CompetenciaResource extends JsonResource
 
         $user = User::find(1);
 
-        foreach ($user->competencias as $competencia) {
-            echo $competencia->pivot->created_at;
-        }
-
         return parent::toArray($request);
     }
 }
