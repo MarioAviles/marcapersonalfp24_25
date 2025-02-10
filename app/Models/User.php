@@ -59,6 +59,7 @@ class User extends Authenticatable
 
     public function competencias()
     {
-        return $this->belongsToMany(Competencia::class, 'users_competencias');
+        return $this->belongsToMany(Competencia::class, 'users_competencias')
+        ->withPivot('docente_validador');
     }
 }
